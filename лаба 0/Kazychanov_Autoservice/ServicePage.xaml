@@ -20,7 +20,7 @@
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <TextBlock Text="Введите название для поиска " TextAlignment="Right" Width="300" FontSize="20"></TextBlock>
-              
+
                 <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged"  Width="300" FontSize="15"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
@@ -82,4 +82,3 @@
         </ListView>
     </Grid>
 </Page>
-    //щшкоплыоавтпидылваотидлцугокзщшарозылдоатпжбдтйцзущкшйзхцщшпылоитдлот
