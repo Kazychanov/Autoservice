@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kazychanov_Autoservice"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontFamily="Tw Cen MT" Icon="/Resources/service_logo.ico">
+        Title="MainWindow" Height="450" Width="800" FontFamily="Tw Cen MT" Icon="/img/service_logo.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+       
+        <Image HorizontalAlignment="Left" Source="/img/logo.png"/>
         <TextBlock Text="Автосервисы" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
         <Button Content="Back" Name="btnBack" HorizontalAlignment="Right" Click="btnBack_Click"></Button>
       
-       
-        <Image Source="/Resources/logo.png" HorizontalAlignment="Left"/>
 
     </Grid>
 </Window>

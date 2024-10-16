@@ -20,8 +20,8 @@
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Margin="10" Orientation="Horizontal">
                 <TextBlock Text="Введите название для поиска " TextAlignment="Right" Width="300" FontSize="20"></TextBlock>
-                <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged" Width="300" FontSize="15"></TextBox>
-
+              
+                <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged"  Width="300" FontSize="15"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Выберете название для поиска " TextAlignment="Right" Width="300" FontSize="20"></TextBlock>
@@ -36,9 +36,9 @@
             </StackPanel>
         </WrapPanel>
         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
-            <RadioButton Content="По возрастанию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButtonUp_Checked" Name="RButtonUp">
+            <RadioButton Name="RButtonUp" Content="По возрастанию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButtonUp_Checked" >
             </RadioButton>
-            <RadioButton Content="По убыванию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButton_Checked" Name="RButton">
+            <RadioButton Name="RButtonDown" Content="По убыванию стоимости" GroupName="Sort" Width="300" FontSize="20" Checked="RButtonDown_Checked" >
             </RadioButton>
         </StackPanel>
         <ListView Name="ServiceListView" Grid.Row="2">
@@ -61,7 +61,7 @@
                                 <Binding Path="MainImagePath">
                                     <Binding.TargetNullValue>
                                         <ImageSource>
-                                            Resources/logo.png
+                                            img/logo.png
                                         </ImageSource>
                                     </Binding.TargetNullValue>
                                 </Binding>
@@ -82,3 +82,4 @@
         </ListView>
     </Grid>
 </Page>
+    //щшкоплыоавтпидылваотидлцугокзщшарозылдоатпжбдтйцзущкшйзхцщшпылоитдлот
