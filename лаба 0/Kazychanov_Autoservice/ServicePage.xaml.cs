@@ -64,9 +64,9 @@ namespace Kazychanov_Autoservice
             ServiceListView.ItemsSource = currentServices.ToList();
 
             if (RButtonDown.IsChecked.Value)
-            ServiceListView.ItemsSource = currentServices.OrderByDescending(p => p.Cost).ToList();
+                ServiceListView.ItemsSource = currentServices.OrderByDescending(p => p.Cost).ToList();
             if (RButtonUp.IsChecked.Value)
-            ServiceListView.ItemsSource = currentServices.OrderBy(p => p.Cost).ToList();
+                ServiceListView.ItemsSource = currentServices.OrderBy(p => p.Cost).ToList();
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -88,5 +88,30 @@ namespace Kazychanov_Autoservice
         {
             UpdateServices();
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Service));
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Page_IsVisibleChanged(object sender,DependencyPropertyChangedEventArgs e)
+        {
+            if(Visibility == Visibility.Visible)
+            {
+                KazychanovAutoServiceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                ServiceListView.ItemsSource = KazychanovAutoServiceEntities.GetContext().Service.ToList();
+            }
+        }
+
     }
 }
