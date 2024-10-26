@@ -42,11 +42,11 @@ namespace Kazychanov_Autoservice
                 errors.AppendLine("Укажите название услуги");
             if (_currentService.Cost == 0)
                 errors.AppendLine("Укажите стоимость услуги");
-            if (_currentService.Discount < 0)
+            if (_currentService.DiscountInt < 0)
                 errors.AppendLine("Укажите скидку");
-            if (_currentService.Discount > 1)
+            if (_currentService.DiscountInt > 100)
                 errors.AppendLine("Укажите скидку");
-            if (_currentService.Discount == null)
+            if (_currentService.DiscountInt == null)
                 errors.AppendLine("Укажите скидку");
             if (string.IsNullOrWhiteSpace(_currentService.Duration))
                 errors.AppendLine("Укажите длительность");

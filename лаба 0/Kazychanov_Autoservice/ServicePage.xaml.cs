@@ -20,6 +20,13 @@ namespace Kazychanov_Autoservice
     /// </summary>
     public partial class ServicePage : Page
     {
+        int CountRecords; //Кол-во записей в таблице
+        int CountPage; //Общее кол-во страниц
+        int CurrentPage; //текущая страница
+
+        List<Service> CurrentPageList = new List<Service>(); //CurrentPageList – текущий лист, который заносится в таблицу;
+        List<Service> TableList; //TableList – лист, содержащий все записи, все сортировки/фильтры/поиски применяются к данной переменной.
+
         public ServicePage()
         {
             InitializeComponent();
@@ -31,33 +38,33 @@ namespace Kazychanov_Autoservice
             ComboType.SelectedIndex = 0;
             UpdateServices();
         }
-        private void UpdateServices()
+        private void UpdateServices() //bla bla
         {
             var currentServices = KazychanovAutoServiceEntities.GetContext().Service.ToList();
 
             if (ComboType.SelectedIndex == 0)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 0 && Convert.ToInt32(p.Discount) <= 100)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 0 && p.DiscountInt <= 100).ToList();
             }
             if (ComboType.SelectedIndex == 1)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 0 && Convert.ToInt32(p.Discount) < 5)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 0 && p.DiscountInt < 5).ToList();
             }
             if (ComboType.SelectedIndex == 2)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 5 && Convert.ToInt32(p.Discount) < 15)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 5 && p.DiscountInt < 15).ToList();
             }
             if (ComboType.SelectedIndex == 3)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 15 && Convert.ToInt32(p.Discount) < 30)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 15 && p.DiscountInt < 30).ToList();
             }
             if (ComboType.SelectedIndex == 4)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 30 && Convert.ToInt32(p.Discount) < 70)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 30 && p.DiscountInt < 70).ToList();
             }
             if (ComboType.SelectedIndex == 5)
             {
-                currentServices = currentServices.Where(p => (Convert.ToInt32(p.Discount) >= 70 && Convert.ToInt32(p.Discount) < 100)).ToList();
+                currentServices = currentServices.Where(p => p.DiscountInt >= 70 && p.DiscountInt < 100).ToList();
             }
 
             currentServices = currentServices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
@@ -67,6 +74,10 @@ namespace Kazychanov_Autoservice
                 ServiceListView.ItemsSource = currentServices.OrderByDescending(p => p.Cost).ToList();
             if (RButtonUp.IsChecked.Value)
                 ServiceListView.ItemsSource = currentServices.OrderBy(p => p.Cost).ToList();
+            
+            ServiceListView.ItemsSource = currentServices;
+            TableList = currentServices;
+            ChangePage(0, 0);
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -101,7 +112,26 @@ namespace Kazychanov_Autoservice
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            var currentService = (sender as Button).DataContext as Service;
+            
+            var currentClientServices = KazychanovAutoServiceEntities.GetContext().ClientService.ToList();
+            currentClientServices = currentClientServices.Where(p => p.ServiceID == currentService.id).ToList();
 
+            if (MessageBox.Show("Вы точно хотите выполнить удаление?", "Внимание!",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    KazychanovAutoServiceEntities.GetContext().Service.Remove(currentService);
+                    KazychanovAutoServiceEntities.GetContext().SaveChanges();
+                    ServiceListView.ItemsSource = KazychanovAutoServiceEntities.GetContext().Service.ToList();
+                    UpdateServices();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
+            }
         }
 
         private void Page_IsVisibleChanged(object sender,DependencyPropertyChangedEventArgs e)
@@ -113,5 +143,103 @@ namespace Kazychanov_Autoservice
             }
         }
 
+        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(1, null);
+        }
+
+        private void RightDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(2, null);
+        }
+
+        private void ChangePage(int direction, int? selectedPage) //функция отвечающая за разделение листа
+        {
+            CurrentPageList.Clear();
+            CountRecords = TableList.Count;
+
+            if (CountRecords % 10 > 0)
+                CountPage = CountRecords / 10 + 1;
+            else
+                CountPage = CountRecords / 10;
+
+            Boolean IfUpdate = true;
+
+            int min;
+
+            if (selectedPage.HasValue)
+            {
+                if(selectedPage >= 0 && selectedPage <= CountPage)
+                {
+                    CurrentPage = (int)selectedPage;
+                    min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                    for (int  i = CurrentPage * 10; i < min; i++)
+                    {
+                        CurrentPageList.Add(TableList[i]);
+                    }
+                }
+            }
+            else
+            {
+                switch (direction)
+                {
+                    case 1: 
+                        if(CurrentPage > 0)
+                        {
+                            CurrentPage--;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                        {
+                            IfUpdate = false;
+                        }
+                        break;
+
+                     case 2:
+                        if (CurrentPage < CountPage - 1)
+                        {
+                            CurrentPage++;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                        {
+                            IfUpdate = false;
+                        }
+                        break;
+                }
+
+            }
+            if (IfUpdate)
+            {
+                PageListBox.Items.Clear();
+
+                for (int i = 1; i <= CountPage; i++)
+                {
+                    PageListBox.Items.Add(i);
+                }
+                PageListBox.SelectedIndex = CurrentPage;
+
+                min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                TBCount.Text= min.ToString();
+                TBAllCount.Text = " из " + CountRecords.ToString();
+
+                ServiceListView.ItemsSource = CurrentPageList;
+                    ServiceListView.Items.Refresh();
+
+            }
+        }
+
+        private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+        }
     }
 }
