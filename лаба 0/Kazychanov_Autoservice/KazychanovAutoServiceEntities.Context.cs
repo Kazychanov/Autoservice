@@ -12,27 +12,19 @@ namespace Kazychanov_Autoservice
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
-    public partial class KazychanovAutoServiceEntities : DbContext
+    
+    public partial class Baranov_AutoserviceEntities : DbContext
     {
-        private static KazychanovAutoServiceEntities _context;
-
-        public static KazychanovAutoServiceEntities GetContext()
-        {
-            if (_context == null)
-                _context = new KazychanovAutoServiceEntities();
-            return _context;
-        }
-        public KazychanovAutoServiceEntities()
-            : base("name=KazychanovAutoServiceEntities")
+        public Baranov_AutoserviceEntities()
+            : base("name=Baranov_AutoserviceEntities")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<ClientService> ClientService { get; set; }
         public virtual DbSet<DocumentByService> DocumentByService { get; set; }

@@ -35,9 +35,9 @@ namespace Kazychanov_Autoservice
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-         
+
             StringBuilder errors = new StringBuilder();
-            
+
             if (string.IsNullOrWhiteSpace(_currentService.Title))
                 errors.AppendLine("Укажите название услуги");
             if (_currentService.Cost == 0)
@@ -46,8 +46,6 @@ namespace Kazychanov_Autoservice
                 errors.AppendLine("Укажите скидку");
             if (_currentService.DiscountInt > 100)
                 errors.AppendLine("Укажите скидку");
-            if (_currentService.DiscountInt == null)
-                errors.AppendLine("Укажите скидку");
             if (string.IsNullOrWhiteSpace(_currentService.Duration))
                 errors.AppendLine("Укажите длительность");
             if (errors.Length > 0)
@@ -55,7 +53,7 @@ namespace Kazychanov_Autoservice
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            if(_currentService.id == 0)
+            if (_currentService.id == 0)
             {
                 KazychanovAutoServiceEntities.GetContext().Service.Add(_currentService);
             }

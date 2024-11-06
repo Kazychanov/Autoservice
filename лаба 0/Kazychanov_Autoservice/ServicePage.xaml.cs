@@ -71,10 +71,10 @@ namespace Kazychanov_Autoservice
             ServiceListView.ItemsSource = currentServices.ToList();
 
             if (RButtonDown.IsChecked.Value)
-                ServiceListView.ItemsSource = currentServices.OrderByDescending(p => p.Cost).ToList();
+                currentServices = currentServices.OrderByDescending(p => p.Cost).ToList();
             if (RButtonUp.IsChecked.Value)
-                ServiceListView.ItemsSource = currentServices.OrderBy(p => p.Cost).ToList();
-            
+                currentServices = currentServices.OrderBy(p => p.Cost).ToList();
+
             ServiceListView.ItemsSource = currentServices;
             TableList = currentServices;
             ChangePage(0, 0);
@@ -113,9 +113,12 @@ namespace Kazychanov_Autoservice
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var currentService = (sender as Button).DataContext as Service;
-            
+
             var currentClientServices = KazychanovAutoServiceEntities.GetContext().ClientService.ToList();
             currentClientServices = currentClientServices.Where(p => p.ServiceID == currentService.id).ToList();
+
+            if (currentClientServices.Count != 0)
+                MessageBox.Show("Невозможно выполнить удаление, так как существуют записи на эту услугу");
 
             if (MessageBox.Show("Вы точно хотите выполнить удаление?", "Внимание!",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -134,9 +137,9 @@ namespace Kazychanov_Autoservice
             }
         }
 
-        private void Page_IsVisibleChanged(object sender,DependencyPropertyChangedEventArgs e)
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(Visibility == Visibility.Visible)
+            if (Visibility == Visibility.Visible)
             {
                 KazychanovAutoServiceEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
                 ServiceListView.ItemsSource = KazychanovAutoServiceEntities.GetContext().Service.ToList();
@@ -169,11 +172,11 @@ namespace Kazychanov_Autoservice
 
             if (selectedPage.HasValue)
             {
-                if(selectedPage >= 0 && selectedPage <= CountPage)
+                if (selectedPage >= 0 && selectedPage <= CountPage)
                 {
                     CurrentPage = (int)selectedPage;
                     min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                    for (int  i = CurrentPage * 10; i < min; i++)
+                    for (int i = CurrentPage * 10; i < min; i++)
                     {
                         CurrentPageList.Add(TableList[i]);
                     }
@@ -183,8 +186,8 @@ namespace Kazychanov_Autoservice
             {
                 switch (direction)
                 {
-                    case 1: 
-                        if(CurrentPage > 0)
+                    case 1:
+                        if (CurrentPage > 0)
                         {
                             CurrentPage--;
                             min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
@@ -199,7 +202,7 @@ namespace Kazychanov_Autoservice
                         }
                         break;
 
-                     case 2:
+                    case 2:
                         if (CurrentPage < CountPage - 1)
                         {
                             CurrentPage++;
@@ -228,11 +231,11 @@ namespace Kazychanov_Autoservice
                 PageListBox.SelectedIndex = CurrentPage;
 
                 min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
-                TBCount.Text= min.ToString();
+                TBCount.Text = min.ToString();
                 TBAllCount.Text = " из " + CountRecords.ToString();
 
                 ServiceListView.ItemsSource = CurrentPageList;
-                    ServiceListView.Items.Refresh();
+                ServiceListView.Items.Refresh();
 
             }
         }

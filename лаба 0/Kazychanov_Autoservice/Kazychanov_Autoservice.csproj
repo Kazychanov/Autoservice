@@ -85,15 +85,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>KazychanovModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="KazychanovModel.cs">
+    <Compile Include="KazychanovModel.cs" />
+    <Compile Include="KazychanovModel.Designer.cs">
+      <DependentUpon>KazychanovModel.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="KazychanovModel1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>KazychanovModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="KazychanovModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KazychanovModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Manager.cs" />
     <Compile Include="Manufacturer.cs">
@@ -120,6 +121,9 @@
       <DependentUpon>ServicePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServicePhoto.cs">
+      <DependentUpon>KazychanovModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagrams.cs">
       <DependentUpon>KazychanovModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Tag.cs">
@@ -197,19 +201,21 @@
     <Resource Include="img\logo.png" />
     <Resource Include="img\service_logo.ico" />
     <Resource Include="img\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="KazychanovModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>KazychanovModel.Context.cs</LastGenOutput>
       <DependentUpon>KazychanovModel.edmx</DependentUpon>
+      <LastGenOutput>KazychanovModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="KazychanovModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>KazychanovModel.edmx</DependentUpon>
-      <LastGenOutput>KazychanovModel.cs</LastGenOutput>
+      <LastGenOutput>KazychanovModel1.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
