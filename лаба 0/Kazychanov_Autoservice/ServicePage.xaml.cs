@@ -66,7 +66,7 @@ namespace Kazychanov_Autoservice
             {
                 currentServices = currentServices.Where(p => p.DiscountInt >= 70 && p.DiscountInt < 100).ToList();
             }
-
+            //b
             currentServices = currentServices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
             ServiceListView.ItemsSource = currentServices.ToList();
 
