@@ -87,9 +87,9 @@
     </Compile>
     <Compile Include="KazychanovModel.cs" />
     <Compile Include="KazychanovModel.Designer.cs">
-      <DependentUpon>KazychanovModel.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>KazychanovModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="KazychanovModel1.cs">
       <AutoGen>True</AutoGen>

@@ -22,6 +22,7 @@
 
                 <TextBox Name="TBoxSearch" TextChanged="TBoxSearch_TextChanged"  Width="300" 
                          FontSize="15"></TextBox>
+              
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Text="Выберете название для поиска " TextAlignment="Right" Width="300" 
@@ -37,7 +38,8 @@
                 </ComboBox>
             </StackPanel>
         </WrapPanel>
-        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
+
+    <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
             <RadioButton Name="RButtonUp" Content="По возрастанию стоимости"
                          GroupName="Sort" Width="300" FontSize="20" Checked="RButtonUp_Checked" >
             </RadioButton>
@@ -50,7 +52,7 @@
         <ListView Name="ServiceListView" Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Background="{Binding FontStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -76,9 +78,16 @@
 
                         </Image>
                         <TextBlock Text="{Binding Title}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" FontSize="20" TextWrapping="Wrap"></TextBlock>
-                        <TextBlock Text="{Binding Cost,StringFormat={}{0:0} рублей за}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" FontSize="20" ></TextBlock>
-                        <TextBlock Text="{Binding Duration}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" FontSize="20" ></TextBlock>
-                        <TextBlock Text="{Binding DiscountInt, StringFormat= скидка {0} %}" Opacity="{Binding DiscountInt}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16" ></TextBlock>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+              <TextBlock Text="{Binding OldCost}" TextDecorations="Strikethrough" Margin="5" FontSize="20" ></TextBlock>
+              <TextBlock Text="{Binding NewCost}" Margin="5" FontSize="20"></TextBlock>
+              <TextBlock Text=" рублей за " Margin="5" FontSize="20"></TextBlock>
+              <TextBlock Text="{Binding Duration}" FontSize="20" Margin="5"></TextBlock>
+            </StackPanel>
+            <TextBlock Text="{Binding DiscountInt, StringFormat= скидка {0} %}" Opacity="{Binding DiscountInt}" 
+                         Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16" Margin="5" ></TextBlock>
+
+                      
                         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
                             <Button Name="EditButton" Content="редактировать" Margin="2" Click="EditButton_Click"></Button>
                             <Button Name="DeleteButton" Content="удалить" Margin="2" Click="DeleteButton_Click"></Button>
